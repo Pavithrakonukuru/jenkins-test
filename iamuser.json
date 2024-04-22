@@ -1,0 +1,39 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+      "MyIAMUser": {
+        "Type": "AWS::IAM::User",
+        "Properties": {
+          "UserName": "my-iam-user",
+          "Path": "/",
+          "Tags": [
+            {
+              "Key": "Name",
+              "Value": "MyIAMUser"
+            }
+          ]
+        }
+      },
+      "MyIAMUserAccessKey": {
+        "Type": "AWS::IAM::AccessKey",
+        "Properties": {
+          "UserName": { "Ref": "MyIAMUser" }
+        }
+      }
+    },
+    "Outputs": {
+      "IAMUserName": {
+        "Value": { "Ref": "MyIAMUser" },
+        "Description": "Name of the created IAM user"
+      },
+      "IAMUserAccessKeyId": {
+        "Value": { "Ref": "MyIAMUserAccessKey" },
+        "Description": "Access Key ID of the created IAM user"
+      },
+      "IAMUserSecretAccessKey": {
+        "Value": { "Fn::GetAtt": ["MyIAMUserAccessKey", "SecretAccessKey"] },
+        "Description": "Secret Access Key of the created IAM user"
+      }
+    }
+  }
+  
